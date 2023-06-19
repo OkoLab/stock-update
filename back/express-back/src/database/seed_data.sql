@@ -1,0 +1,3 @@
+-- INSERT INTO `stock-update`.`skus` (`id`, `sku`) VALUES
+-- 	(1, 'SC-D5-1-K8-10--')
+--     ;
