@@ -4,10 +4,19 @@ import Lexer from "./commander/Lexer"
 import "reflect-metadata"
 import { AppDataSource } from './database/data-source'
 import { Sku } from './database/entity/Sku'
+import { result } from './database/service'
 
 const code = "(D2 == 3)=5";
 const lexer = new Lexer(code);
 lexer.lexAnalisys();
+
+async function getAllSku(){
+    const res1 = await result;
+    console.log(res1);
+}
+
+getAllSku();
+
 //console.log(lexer.tokenList);
 
 // AppDataSource.initialize()
@@ -49,6 +58,10 @@ app.use(express.urlencoded({ extended: true }));
 // app.get('/api/:command', function (req:any, res:any) {
 //     res.json({msg: req.params.command })
 //   })
+
+// app.get('/', (req, res) => {
+//     res.send('Hello World!');
+// })
 
 app.listen(PORT, () => {
     console.log("The server is started...");
