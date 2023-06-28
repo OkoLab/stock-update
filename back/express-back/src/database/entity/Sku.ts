@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
-export class Sku {
+export abstract class Sku {
     @PrimaryGeneratedColumn()
     id: number
 

@@ -14,7 +14,7 @@ export const tokenTypesList = {
     'IDENTIFIER': new TokenType('IDENTIFIER', '[a-zA-Z0-9]*'),
     'MAINIDENTIFIER': new TokenType('MAINIDENTIFIER', '\\*'),
     'SEMICOLON': new TokenType('SEMICOLON', ';'),
-    'SPACE': new TokenType('SPACE', '[\\n\\t\\r\\s]'),
+    'SPACE': new TokenType('SPACE', '[ \\n\\t\\r\\s]'),
     'ASSIGN': new TokenType('ASSIGN', '='),
     'OPENPAR': new TokenType('OPENPAR', '\\('),
     'CLOSEPAR': new TokenType('CLOSEPAR', '\\)'),

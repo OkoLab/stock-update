@@ -11,13 +11,13 @@ export default class Lexer {
     }
 
     lexAnalisys(): Token[] {
-        while(this.nextToken()) {
-        }
+        
+        while(this.nextToken()) {}
         this.tokenList = this.tokenList.filter(token => token.type.name !== tokenTypesList.SPACE.name);
         return this.tokenList;
     }
 
-    nextToken(): boolean {
+    nextToken():boolean {
         if(this.cursor >= this.code.length) {
             return false;
         }

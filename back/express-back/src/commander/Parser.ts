@@ -18,6 +18,21 @@ export default class Parser {
     run(node: ExpressionNode): any {
         if (node instanceof NumberNode) {
             return parseInt(node.number.text);
+        }
+        if(node instanceof BinaryOperationNode) {
+            switch(node.operator.type.name) {
+                case tokenTypesList.ASSIGN.name:
+                    
+            }
+        }
+        if(node instanceof IdentifierNode) {
+            return 
+        }
+        if(node instanceof StatementsNode) {
+            node.codeStrings.forEach(codeString => {
+                this.run(codeString);
+            });
+            return;
         }        
     }
 
@@ -33,19 +48,20 @@ export default class Parser {
     }
 
     parseExpression(): ExpressionNode {
-        if(this.match(tokenTypesList.IDENTIFIER) == null) {
+        if(this.match(tokenTypesList.IDENTIFIER, tokenTypesList.MAINIDENTIFIER) == null) {
             return this.parseParentheses();
         }
         this.cursor -=1  ;
         let identifierNode = this.parseIdentifierOrNumber();
         const assignOperator = this.match(tokenTypesList.ASSIGN);
         if(assignOperator != null) {
-            const rightNode = this.parseFormula();
+            //const rightNode = this.parseFormula();
+            const rightNode = this.parseIdentifierOrNumber();
             const binaryNode = new BinaryOperationNode(assignOperator, identifierNode, rightNode);
             return binaryNode;
         }
 
-        throw new Error(`// ХЗ как назвать После переменной ожидается оператор при`);
+        throw new Error(`// После переменной ожидается оператор присваивания количества оборудования`);
     }
 
     parseIdentifierOrNumber(): ExpressionNode {
@@ -54,7 +70,7 @@ export default class Parser {
             return new NumberNode(number);
         }
 
-        const identifier = this.match(tokenTypesList.IDENTIFIER);
+        const identifier = this.match(tokenTypesList.IDENTIFIER, tokenTypesList.MAINIDENTIFIER);
         if (identifier != null ) {
             return new IdentifierNode(identifier);
         }
@@ -89,8 +105,8 @@ export default class Parser {
     match(...expected: TokenType[]): Token | null {
         if(this.cursor < this.tokens.length) {
             const currentToken = this.tokens[this.cursor];
-            if(expected.find(type=> type.name === currentToken.type.name)) {
-                this.cursor +=1;
+            if(expected.find(type => type.name === currentToken.type.name)) {
+                this.cursor++;
                 return currentToken;
             }
         }

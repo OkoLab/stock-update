@@ -1,21 +1,31 @@
 import express from "express"
 import cors from "cors"
 import Lexer from "./commander/Lexer"
-import "reflect-metadata"
-import { AppDataSource } from './database/data-source'
-import { Sku } from './database/entity/Sku'
-import { result } from './database/service'
+import { DataBase } from "./database/DataBase";
+import { Controller } from "./controller/Controller";
+// import { result } from './database/service'
 
-const code = "(D2 == 3)=5";
-const lexer = new Lexer(code);
-lexer.lexAnalisys();
+// const code = "(D2 == 3)=5";
+// const lexer = new Lexer(code);
+// lexer.lexAnalisys();
 
-async function getAllSku(){
-    const res1 = await result;
-    console.log(res1);
-}
+const db = new DataBase();
+await db.connectionToDB();
+const contr = new Controller(db);
+await contr.getArrayOfKits();
 
-getAllSku();
+// const db = new DataBase();
+// await db.connectionToDB();
+// console.log(res);
+
+// const res1 = await result;
+// console.log(res1);
+
+// async function getAllSku(){
+//     const res1 = await result;
+// }
+
+// getAllSku();
 
 //console.log(lexer.tokenList);
 

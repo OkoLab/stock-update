@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import Lexer from "../commander/Lexer";
-import Token from "../commander/Token";
+import Lexer from "../src/commander/Lexer"
+import Token from "../src/commander/Token"
 
 describe("Testin Lexer", () => {
    it("#080620231501 Testing a lexAnalisys function that takes a string and returns tokens from that string", () => {
@@ -17,7 +17,7 @@ describe("Testin Lexer", () => {
               position: 1
             },
             {
-              type: { name: 'OPERATOR', regex: '(==|<=|=<|>=|=>|<|>)' },
+              type: { name: 'OPERATOR', regex: '(==|<=|=<|>=|=>|<|>|&&|\\||)' },
               text: '==',
               position: 4
             },
