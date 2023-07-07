@@ -1,9 +1,7 @@
 import 'dotenv/config'
 import "reflect-metadata";
-import { DataSource, EntityTarget } from "typeorm"
+import { DataSource} from "typeorm"
 import { connectionSource } from './ormconfig';
-import { StandardSku } from './entity/StandardSku';
-import { Sku } from './entity/Sku';
 
 export class DataBase {
     private AppDataSource: DataSource;
@@ -12,12 +10,21 @@ export class DataBase {
         this.AppDataSource = connectionSource;
     }
 
-    connectionToDB = async() => {
+    openConnectionToDB = async() => {
         try{
             await this.AppDataSource.initialize();
             console.log("Data Source has been initialized!");
         }catch(err){
             throw new Error(`Error during Data Source initialization: `+ err)      
+        }
+    }
+
+    closeConnectionToDB = async() => {
+        try{
+            await this.AppDataSource.destroy();
+            console.log("Data Source has been closed!");
+        }catch(err){
+            throw new Error(`Error during Data Source closing: `+ err)      
         }
     }
 

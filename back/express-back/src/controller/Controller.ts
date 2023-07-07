@@ -1,6 +1,9 @@
+import { NonstandardSku } from '../database/entity/NonstandardSku';
 import { DataBase } from '../database/DataBase';
 import { StandardSku } from '../database/entity/StandardSku';
 import { StandardKitList } from './Lists/StandardKitList';
+import { NonStandardKitList } from './Lists/NonStandardKitList';
+import { Kits } from './Types';
 
 //на выходе должны получить массив с json обектами { name: amount: }
 
@@ -27,10 +30,50 @@ export class Controller {
         this.dataBase = dataBase;
     }
 
-    async getArrayOfKits() {
+    async init() {
+        await this.dataBase.openConnectionToDB();
+    }
+
+    async getArrayOfKits(): Promise<Kits> {
         const standardSkus: Array<StandardSku> = await this.dataBase.find(StandardSku);
         const standardKitList = new StandardKitList(standardSkus);
-        console.log(standardKitList.kitList);
+        // console.log("-----------------------------------------------------");
+        //console.log(standardKitList.convertSkuTBL_to_KitsList());
+        // console.log("-----------------------------------------------------");
+        const non_standardSkus: Array<NonstandardSku> = await this.dataBase.find(NonstandardSku);
+        const non_standardKitList = new NonStandardKitList(non_standardSkus);
+        return Object.assign(standardKitList.convertSkuTBL_to_KitsList(), non_standardKitList.convertSkuTBL_to_KitsList())
+
+        // console.log("-----------------------------------------------------");
+        // console.log(non_standardKitList.convertSkuTBL_to_KitsList());
+        // console.log("-----------------------------------------------------");
+    }
+
+    comparison_filter(kits: Kits, identifier: string, operator: string, quantity: number): Kits {
+        let _kits: Kits = {};        
+        for (let item in kits) {
+            const eval_str = kits[item].identifier + operator + quantity.toString();
+            //console.log(kits[item].D5);
+            console.log(identifier);
+            let comparison = eval(eval_str);
+
+            if (comparison) {
+                _kits[item] = kits[item];
+                _kits[item].amount = 0;
+            }
+        }
+        return _kits;
+    }
+
+    filter(kits: Kits, identifier: string): Kits {
+        let _kits: Kits = {};
+        for (let item in kits) {
+            if (kits[item].hasOwnProperty(identifier)) {
+                _kits[item] = kits[item];
+                _kits[item].amount = 0;
+            }
+        }
+        return _kits;
     }
 
     // allStandartSku: Array<Sku>;

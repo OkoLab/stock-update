@@ -3,16 +3,36 @@ import cors from "cors"
 import Lexer from "./commander/Lexer"
 import { DataBase } from "./database/DataBase";
 import { Controller } from "./controller/Controller";
+import Parser from "./commander/Parser";
+import { Kits } from "./controller/Types";
 // import { result } from './database/service'
 
-// const code = "(D2 == 3)=5";
-// const lexer = new Lexer(code);
-// lexer.lexAnalisys();
-
+// const code = "(D2==3)=5;";
+const code = "(D5==1)=5;";
+const lexer = new Lexer(code);
+// console.log(lexer.lexAnalisys());
+lexer.lexAnalisys();
 const db = new DataBase();
-await db.connectionToDB();
+await db.openConnectionToDB();
 const contr = new Controller(db);
-await contr.getArrayOfKits();
+const kits: Kits = await contr.getArrayOfKits();
+const parser = new Parser(lexer.tokenList, contr, kits);
+const rootNode = parser.parseCode();
+// console.log(rootNode);
+parser.run(rootNode);
+db.closeConnectionToDB();
+//console.log(parser.scope);
+// console.log("FormulaNode++++++++++++: ");
+// console.log(JSON.stringify(rootNode, null, 4));
+// console.log("+++++++++++++++++++++++++++: ");
+
+
+
+// const db = new DataBase();
+// await db.connectionToDB();
+// const contr = new Controller(db);
+// const kits: Kits = await contr.getArrayOfKits();
+// console.log(kits);
 
 // const db = new DataBase();
 // await db.connectionToDB();
@@ -42,12 +62,12 @@ await contr.getArrayOfKits();
 //     })
 
 //const PORT = process.env.PORT ?? 5173;
-const PORT = 3000;
-const app = express();
+// const PORT = 3000;
+// const app = express();
 
 
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
+// app.use(cors());
+// app.use(express.urlencoded({ extended: true }));
 
 // async function test1() {
 //     const sku = new Sku();
@@ -73,6 +93,6 @@ app.use(express.urlencoded({ extended: true }));
 //     res.send('Hello World!');
 // })
 
-app.listen(PORT, () => {
-    console.log("The server is started...");
-});
+// app.listen(PORT, () => {
+//     console.log("The server is started...");
+// });

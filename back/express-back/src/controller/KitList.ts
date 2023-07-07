@@ -1,5 +1,6 @@
 import { Kits } from "./Types";
 
 export class KitList{
-    kitList: Kits | null = null;
+    //kitList: Kits | null = null;
+
 }

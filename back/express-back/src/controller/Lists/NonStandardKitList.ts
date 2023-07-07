@@ -2,20 +2,19 @@ import { Sku } from "src/database/entity/Sku";
 import { KitList } from "../KitList";
 import { Kit, Kits } from "../Types";
 import { IKitList } from "./IKitList";
-import { StandardSku } from "src/database/entity/StandardSku";
+import { NonstandardSku } from "src/database/entity/NonstandardSku";
 
-//SC-P10-1-K23-5--
-export class StandardKitList extends KitList implements IKitList {
-    private skuTable: Array<StandardSku>;
-    
-    constructor(skuTable: Array<StandardSku>) {
+export class NonStandardKitList extends KitList implements IKitList {
+    private skuTable: Array<NonstandardSku>;
+
+    constructor(skuTable: Array<NonstandardSku>) {
         super();
         this.skuTable = skuTable;
         //this.kitList = this.convertSkuTBL_to_KitsList(skuTable);
     }
 
     // [
-    //   "SC-P10-321-K6-156--":
+    //   "GDHNXKSJCKC":
     // {
     //     P10:321,
     //     K6:156  
@@ -26,7 +25,7 @@ export class StandardKitList extends KitList implements IKitList {
         let allKits: Kits = {};
         this.skuTable.forEach((sku) => {
             // получаем массив строк с совпадениями Модель-Количество в комплекте  
-            const models_amounts = sku.name.match(/\w\d+\-\d+/g);
+            const models_amounts = sku.standardname.match(/\w\d+\-\d+/g);
             if (models_amounts) {
                 let kit: Kit = {};
                 models_amounts.forEach((model_amount) => {
