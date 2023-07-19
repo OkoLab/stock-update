@@ -9,7 +9,8 @@ export default class TokenType {
 }
 
 export const tokenTypesList = {
-    'OPERATOR' : new TokenType('OPERATOR', '(==|<=|=<|>=|=>|<|>|&&|\\||)'),
+    'OPERATOR' : new TokenType('OPERATOR', '(==|<=|=<|>=|=>|<|>)'),
+    'LOGICAL' : new TokenType('LOGICAL', '&&'),
     'NUMBER': new TokenType('NUMBER', '[0-9]*'),
     'IDENTIFIER': new TokenType('IDENTIFIER', '[a-zA-Z0-9]*'),
     'MAINIDENTIFIER': new TokenType('MAINIDENTIFIER', '\\*'),

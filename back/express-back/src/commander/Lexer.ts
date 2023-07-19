@@ -35,6 +35,6 @@ export default class Lexer {
             }
         }
 
-        throw new Error(`На позиции ${this.cursor} обнаружена ошибка`)
+        throw new Error(`На позиции ${this.cursor} обнаружена ошибка`);
     }
 }

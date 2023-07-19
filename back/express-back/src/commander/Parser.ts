@@ -40,6 +40,14 @@ export default class Parser {
                     const identifier = this.run(node.leftNode);
                     const quantity = this.run(node.rightNode);
                     this._scope = this.cont.comparison_filter(this._scope, identifier,node.operator.text, quantity);
+                    //console.log(this._scope);
+                    return;
+                case tokenTypesList.LOGICAL.name:
+                    this.run(node.leftNode);
+                    console.log(this.scope);
+                    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    this.run(node.rightNode);
+                    console.log(this.scope);
                     return;
                 case tokenTypesList.ASSIGN.name:
                     const amount = this.run(node.rightNode);
@@ -108,11 +116,11 @@ export default class Parser {
 
     parseFormula(): ExpressionNode {
         let leftNode = this.parseParentheses();
-        let operator = this.match(tokenTypesList.OPERATOR);
+        let operator = this.match(tokenTypesList.OPERATOR, tokenTypesList.LOGICAL);
         while(operator != null) {
             const rightNode = this.parseParentheses();
             leftNode = new BinaryOperationNode(operator, leftNode, rightNode);
-            operator = this.match(tokenTypesList.OPERATOR);
+            operator = this.match(tokenTypesList.OPERATOR, tokenTypesList.LOGICAL);
         }
 
         return leftNode;

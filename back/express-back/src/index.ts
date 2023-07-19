@@ -8,9 +8,11 @@ import { Kits } from "./controller/Types";
 // import { result } from './database/service'
 
 // const code = "(D2==3)=5;";
-const code = "(D5==1)=5;";
+//const code = "((D5==1)&&(K8==20))=5;";
+const code = "((D5==1)&&(K8>=10))=5;";
+//const code = "D5=5;";
 const lexer = new Lexer(code);
-// console.log(lexer.lexAnalisys());
+//console.log(lexer.lexAnalisys());
 lexer.lexAnalisys();
 const db = new DataBase();
 await db.openConnectionToDB();
@@ -18,6 +20,7 @@ const contr = new Controller(db);
 const kits: Kits = await contr.getArrayOfKits();
 const parser = new Parser(lexer.tokenList, contr, kits);
 const rootNode = parser.parseCode();
+// console.log("rootNode:");
 // console.log(rootNode);
 parser.run(rootNode);
 db.closeConnectionToDB();

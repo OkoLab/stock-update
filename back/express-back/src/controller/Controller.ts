@@ -49,12 +49,11 @@ export class Controller {
         // console.log("-----------------------------------------------------");
     }
 
-    comparison_filter(kits: Kits, identifier: string, operator: string, quantity: number): Kits {
+    comparison_filter(kits: Kits, identifier: string, operator: string, quantity: number): Kits {     
         let _kits: Kits = {};        
+
         for (let item in kits) {
-            const eval_str = kits[item].identifier + operator + quantity.toString();
-            //console.log(kits[item].D5);
-            console.log(identifier);
+            const eval_str = kits[item][identifier] + operator + quantity.toString();
             let comparison = eval(eval_str);
 
             if (comparison) {
@@ -62,6 +61,7 @@ export class Controller {
                 _kits[item].amount = 0;
             }
         }
+
         return _kits;
     }
 
