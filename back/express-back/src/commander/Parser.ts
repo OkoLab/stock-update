@@ -6,6 +6,7 @@ import NumberNode from "./AST/NumberNode";
 import StatementsNode from "./AST/StatementsNode";
 import Token from "../commander/Token";
 import TokenType, { tokenTypesList } from "./TokenType";
+import { NEWAMOUNTS } from "src/sheets/Interfaces";
 
 export default class Parser {
     tokens: Token[];
@@ -15,6 +16,15 @@ export default class Parser {
 
     get scope(){
         return this._scope;
+    }
+
+    // берем HashMap состоящий из 'SC-D5-1-K8-10--': { D5: 1, K8: 10, amount: 5 } и возвращаем HashMap 'SC-D5-1-K8-10--':5
+    getKitAmounts() {
+        const kitAmounts: NEWAMOUNTS = {};
+        for(let kit in this._scope){
+            if (this._scope[kit].amount) kitAmounts[kit] = this._scope[kit].amount;
+        }
+        return kitAmounts;
     }
 
     constructor(tokens: Token[], cont: Controller, scope: any) {
@@ -44,10 +54,7 @@ export default class Parser {
                     return;
                 case tokenTypesList.LOGICAL.name:
                     this.run(node.leftNode);
-                    console.log(this.scope);
-                    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++");
                     this.run(node.rightNode);
-                    console.log(this.scope);
                     return;
                 case tokenTypesList.ASSIGN.name:
                     const amount = this.run(node.rightNode);

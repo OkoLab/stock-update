@@ -5,6 +5,8 @@ import { DataBase } from "./database/DataBase";
 import { Controller } from "./controller/Controller";
 import Parser from "./commander/Parser";
 import { Kits } from "./controller/Types";
+import { OzonFileGenerator } from "./sheets/generator/OzonFileGenerator";
+import { OZONFactory } from "./sheets/templates/ozon/OZON";
 // import { result } from './database/service'
 
 // const code = "(D2==3)=5;";
@@ -23,8 +25,12 @@ const rootNode = parser.parseCode();
 // console.log("rootNode:");
 // console.log(rootNode);
 parser.run(rootNode);
+const kitAmounts = parser.getKitAmounts();
 db.closeConnectionToDB();
-//console.log(parser.scope);
+
+const aon_ozon = new OzonFileGenerator("aon", "aon", kitAmounts );
+aon_ozon.start();
+
 // console.log("FormulaNode++++++++++++: ");
 // console.log(JSON.stringify(rootNode, null, 4));
 // console.log("+++++++++++++++++++++++++++: ");
